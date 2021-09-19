@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { Injectable } from '@angular/core';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @Injectable()
 export class IonicGestureConfig extends HammerGestureConfig {
@@ -38,6 +39,12 @@ export class IonicGestureConfig extends HammerGestureConfig {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     AngularFireAuthGuard,
